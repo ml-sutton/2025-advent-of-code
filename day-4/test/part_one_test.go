@@ -1,0 +1,16 @@
+package test
+
+import (
+	"testing"
+
+	"github.com/ml-sutton/2025-advent-of-code/day-4/one"
+)
+
+func TestPartOne(t *testing.T) {
+	var expectedValue int = 13
+	var actualValue int = one.Solve("test_input.txt")
+	if !(expectedValue == actualValue) {
+		t.Error("[TEST FAILED!] Expected result : ", expectedValue, " . Actual Result : ", actualValue)
+	}
+
+}

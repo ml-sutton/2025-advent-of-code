@@ -25,6 +25,6 @@ func PartTwo(path string) int64 {
 	for _, line := range lines {
 		sum += Solve(line)
 	}
-
+ 
 	return sum
 }
