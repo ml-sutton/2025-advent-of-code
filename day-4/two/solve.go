@@ -8,15 +8,33 @@ import (
 	"github.com/ml-sutton/2025-advent-of-code/day-4/utils"
 )
 
-type Point struct {
-	x, y int
-}
-
 func Solve(path string) int {
 	var total = 0
-	var matrix [][]string = populateMatrix(loadFile(path))
-
+	var lines = loadFile(path)
+	var matrix [][]string = populateMatrix(lines)
+	var solved = solveRecursive(matrix, &total)
+	fmt.Println("SOLVED ", solved)
 	return total
+}
+func solveRecursive(matrix [][]string, totalPtr *int) int {
+	var localMatrix = matrix
+	var totalRemoved = 0
+	for yIndex, row := range localMatrix {
+		for xIndex, column := range row {
+			if column == "@" {
+				if checkAdjacentNodes(localMatrix, xIndex, yIndex) {
+					*totalPtr += 1
+					totalRemoved += 1
+					localMatrix[yIndex][xIndex] = "."
+				}
+			}
+		}
+	}
+	if totalRemoved == 0 {
+		return 0
+	} else {
+		return solveRecursive(localMatrix, totalPtr)
+	}
 }
 
 // helper methods are defined after this
@@ -46,10 +64,6 @@ func populateMatrix(fileLines []string) [][]string {
 		matrix = append(matrix, row)
 	}
 	return matrix
-}
-
-func bfs(matrix [][]string, start Point) {
-
 }
 func checkAdjacentNodes(matrix [][]string, xCoordinate int, yCoordinate int) bool {
 	var upOk bool = yCoordinate-1 >= 0
